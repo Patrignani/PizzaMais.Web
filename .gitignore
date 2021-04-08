@@ -23,3 +23,6 @@ pnpm-debug.log*
 *.sw?
 .history/
 .vs/
+
+#Electron-builder output
+/dist_electron

@@ -1,4 +1,4 @@
-# pizza-mais-web
+# test
 
 ## Project setup
 ```
