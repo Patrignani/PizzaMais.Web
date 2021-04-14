@@ -1,32 +1,83 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div id="app" :class="[isMenuVisible 
+  ? isSubMenuVisible 
+    ? 'hide-menu-submenu' 
+    : ''
+  : 'hide-menu']">
+    <Header title="Pizza Mais" :hideToggle="false" />
+    <Menu />
+    <SubMenuItem />
+    <Content />
+    <Footer />
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import Header from "@/components/template/Header";
+import Menu from "@/components/template/Menu";
+import Content from "@/components/template/Content";
+import Footer from "@/components/template/Footer";
+import SubMenuItem from "@/components/template/SubMenuItem";
+import { APP } from "./utils/constants";
+export default {
+  name: "App",
+  components: {
+    Header,
+    Menu,
+    Footer,
+    Content,
+    SubMenuItem
+  },
+  computed: {
+    isMenuVisible() {
+      return this.$store.getters[APP.TOGGLEMENU];
+    },
+    isSubMenuVisible(){
+       return this.$store.getters[APP.TOGGLESUBMENU];
     }
   }
+};
+</script>
+
+<style>
+* {
+  font-family: "lato", "sans-serif";
+}
+
+body {
+  margin: 0;
+}
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -mox-osx-font-smoothing: grayscale;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 60px 1fr 40px;
+  grid-template-columns: 88px 1fr;
+  grid-template-areas:
+    "header header"
+    "menu content"
+    "menu footer";
+}
+
+#app.hide-menu {
+  grid-template-areas:
+    "header header"
+    "content content"
+    "footer footer";
+}
+
+#app.hide-menu-submenu {
+   -webkit-font-smoothing: antialiased;
+  -mox-osx-font-smoothing: grayscale;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 60px 1fr 40px;
+  grid-template-columns: 88px 215px 1fr;
+  grid-template-areas:
+    "header header header"
+    "menu submenu content"
+    "menu submenu footer";
 }
 </style>
