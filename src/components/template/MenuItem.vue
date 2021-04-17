@@ -1,9 +1,9 @@
 <template>
   <div class="menu-item">
-    <div class="novo-menu" v-for="item in options" :key="item.icon">
-      <div class="icon" @click="selectMenu(item.action)">
+    <div class="novo-menu" v-for="item in options" :key="item.icon"  @click="selectMenu(item.action)">
+      <div class="icon">
         <a>
-          <b-icon :icon="item.icon" class="bg-info"></b-icon>
+          <b-icon :icon="item.icon" class="icon"></b-icon>
         </a>
       </div>
       <div class="text">{{ item.text }}</div>
@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import { APP } from "../../utils/constants";
 export default {
   props: {
     options: {
@@ -22,7 +21,6 @@ export default {
   },
   methods: {
     selectMenu(value) {
-      this.$store.commit(APP.TOGGLESUBMENU);
       this.$store.commit(value);
     },
   },
@@ -48,13 +46,18 @@ export default {
 .novo-menu {
   border-bottom: 1px solid #fff;
   width: 100%;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently */
 }
 
-.bg-info {
-  margin-left: 15px;
-  margin-top: 5px;
+.icon {
+  text-align: center;
+  margin-left: 9px;
   font-size: 40px;
-  padding: 5px;
   display: flex;
 }
 

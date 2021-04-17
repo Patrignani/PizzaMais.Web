@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { APP, MENU } from "../../utils/constants";
+import { APP } from "../../utils/constants";
 import MenuItem from "./MenuItem.vue";
 export default {
   name: "Menu",
@@ -18,9 +18,9 @@ export default {
   data() {
     return {
       options: [
-        { icon: "clipboard-plus", text: "Pedido", action: MENU.PEDIDO },
-        { icon: "pencil-square", text: "Cadastro", action: MENU.CADASTRO },
-        { icon: "gear", text: "Configuração", action: MENU.CONFIGURACAO },
+        { icon: "clipboard-plus", text: "Pedido", action: APP.PEDIDO },
+        { icon: "pencil-square", text: "Cadastro", action: APP.CADASTRO },
+        { icon: "gear", text: "Configuração", action: APP.CONFIGURACAO },
       ],
     };
   },

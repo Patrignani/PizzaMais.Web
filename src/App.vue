@@ -8,7 +8,7 @@
     <Menu />
     <SubMenuItem />
     <Content />
-    <Footer />
+
   </div>
 </template>
 
@@ -16,7 +16,7 @@
 import Header from "@/components/template/Header";
 import Menu from "@/components/template/Menu";
 import Content from "@/components/template/Content";
-import Footer from "@/components/template/Footer";
+//import Footer from "@/components/template/Footer";
 import SubMenuItem from "@/components/template/SubMenuItem";
 import { APP } from "./utils/constants";
 export default {
@@ -24,7 +24,7 @@ export default {
   components: {
     Header,
     Menu,
-    Footer,
+    //Footer,
     Content,
     SubMenuItem
   },
@@ -58,14 +58,14 @@ body {
   grid-template-areas:
     "header header"
     "menu content"
-    "menu footer";
+    "menu content";
 }
 
 #app.hide-menu {
   grid-template-areas:
     "header header"
     "content content"
-    "footer footer";
+    "content content";
 }
 
 #app.hide-menu-submenu {
@@ -74,10 +74,10 @@ body {
   height: 100vh;
   display: grid;
   grid-template-rows: 60px 1fr 40px;
-  grid-template-columns: 88px 215px 1fr;
+  grid-template-columns: 88px 200px 1fr;
   grid-template-areas:
     "header header header"
     "menu submenu content"
-    "menu submenu footer";
+    "menu submenu content";
 }
 </style>

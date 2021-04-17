@@ -1,12 +1,18 @@
 <template>
-  <footer class="footer">
+  <footer class="footer" @click="notSubMenu">
       <span>Copyrigth <strong>Pizza Mais</strong> 2021</span>
   </footer>
 </template>
 
 <script>
+import { APP } from "../../utils/constants";
 export default {
-name:'Footer'
+name:'Footer',
+methods:{
+    notSubMenu(){
+       this.$store.commit(APP.NOTSUBMENU);
+    }
+  }
 }
 </script>
 

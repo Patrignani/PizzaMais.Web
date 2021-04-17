@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header class="header" @click="notSubMenu">
     <a class="toggle" @click="toggleMenu" v-if="!hideToggle">
       <i class="fa fa-lg" :class="icon"></i>
     </a>
@@ -12,8 +12,6 @@
 <script>
 import UserDropdown from "./UserDropdown";
 import { APP } from '../../utils/constants'
-
-
 export default {
   name: "Header",
   components: { UserDropdown },
@@ -34,6 +32,9 @@ export default {
       this.$store.commit(APP.TOGGLEMENU)
       this.$store.commit(APP.TOGGLESUBMENU, false)
     },
+    notSubMenu(){
+       this.$store.commit(APP.NOTSUBMENU);
+    }
   },
 };
 </script>

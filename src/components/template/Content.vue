@@ -1,11 +1,18 @@
 <template>
-  <div class="content"></div>
+  <div class="content" @click="notSubMenu">
+      <router-view></router-view>
+  </div>
 </template>
 
 <script>
-
+import { APP } from "../../utils/constants";
 export default {
-  name: "Content"
+  name: "Content",
+  methods:{
+    notSubMenu(){
+       this.$store.commit(APP.NOTSUBMENU);
+    }
+  }
 };
 </script>
 
@@ -13,6 +20,5 @@ export default {
 .content {
   grid-area: content;
   background-color: #efefef;
-  padding: 20px;
 }
 </style>

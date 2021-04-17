@@ -2,11 +2,10 @@ export const APP = {
     TOGGLEMENU: 'app/TOGGLEMENU',
     TOGGLESUBMENU: 'app/TOGGLESUBMENU',
     USER: 'app/USER',
-    IMG: 'app/IMG'
-}
-export const MENU = {
-    MENU: 'MENU/MENU',
-    CADASTRO: 'MENU/CADASTRO',
-    PEDIDO: 'MENU/PEDIDO',
-    CONFIGURACAO: 'MENU/CONFIGURACAO',
+    IMG: 'app/IMG',
+    MENU: 'app/MENU',
+    CADASTRO: 'app/CADASTRO',
+    PEDIDO: 'app/PEDIDO',
+    CONFIGURACAO: 'app/CONFIGURACAO',
+    NOTSUBMENU: 'app/NOTSUBMENU'
 }
