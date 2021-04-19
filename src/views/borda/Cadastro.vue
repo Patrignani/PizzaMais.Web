@@ -1,11 +1,16 @@
 <template>
-  <div class="ingrediente-component">
-    <page-title
-      icon="weight"
-      icon-type="2"
-      main="Ingredientes"
-      sub="Cadastro"
-    />
+  <div class="borda-component">
+    <page-title icon="utensils" icon-type="2" main="Borda" sub="Cadastro" />
+
+    <b-alert
+      v-model="showTop"
+      class="position-fixed fixed-bottom m-0 rounded-0"
+      style="z-index: 2000"
+      :variant="variant"
+      dismissible
+    >
+      {{ message }}
+    </b-alert>
 
     <div class="body">
       <b-card>
@@ -14,16 +19,16 @@
             <b-col sm="1">
               <Input
                 labelGroupName="Id"
-                inputId="ingrediente-id"
+                inputId="borda-id"
                 :value="model.id"
                 :disabled="true"
                 v-on:input="model.id = $event"
               />
             </b-col>
-            <b-col sm="10">
+            <b-col sm="7">
               <Input
                 labelGroupName="Descrição"
-                inputId="ingrediente-descricao"
+                inputId="borda-descricao"
                 :value="model.descricao"
                 v-on:input="model.descricao = $event"
                 :disabled="!state"
@@ -34,12 +39,22 @@
                 }"
               />
             </b-col>
+            <b-col sm="3">
+              <Input
+                labelGroupName="Valor"
+                inputId="borda-valor"
+                :value="model.valor"
+                v-on:input="model.valor = $event"
+                :disabled="!state"
+                type="number"
+              />
+            </b-col>
             <b-col sm="1">
-              <b-form-group label="Ativo" label-for="ingredientes-ativo">
+              <b-form-group label="Ativo" label-for="borda-ativo">
                 <b-form-checkbox
                   :disabled="!state"
                   v-model="model.ativo"
-                  id="ingredientes-ativo"
+                  id="borda-ativo"
                   switch
                 ></b-form-checkbox>
               </b-form-group>
@@ -53,9 +68,9 @@
 </template>
 
 <script>
-import PageTitle from "../../template/PageTitle";
-import Input from "../../template/Input";
-import ButtonsForm from "../../template/ButtonsForm";
+import PageTitle from "../../components/template/PageTitle";
+import Input from "../../components/template/Input";
+import ButtonsForm from "../../components/template/ButtonsForm";
 
 export default {
   components: {
@@ -91,7 +106,8 @@ export default {
       model: {
         id: 0,
         descricao: "",
-        ativo: true
+        valor: 0,
+        ativo:true
       },
       validate: {
         descricao: {
@@ -101,18 +117,22 @@ export default {
         },
       },
       state: true,
+      showTop: false,
+      message: "",
+      variant: "success",
     };
   },
   methods: {
     onSubmit() {
-      this.state = false;
+      this.message = "Salvo com sucesso!";
+      this.showTop = true;
 
-      if (this.validate.descricao.Valid()) {
-        this.validate.descricao.isValid = undefined;
-        alert(this.validate.descricao.isValid);
-      } else {
-        this.validate.descricao.isValid = false;
-      }
+      setTimeout(() => (this.showTop = false), 1500);
+
+      this.state = false;
+      this.validate.descricao.isValid = this.validate.descricao.Valid();
+
+      if (this.validate.descricao.isValid) console.log("Ok");
     },
   },
   created() {

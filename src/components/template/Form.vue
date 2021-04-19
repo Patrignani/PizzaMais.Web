@@ -1,4 +1,9 @@
-<template>
+
+<script>
+import Input from "../template/Input";
+import { uuid } from "vue-uuid";
+export default {
+  template:`
   <div class="body">
     <b-card>
       <b-form>
@@ -33,12 +38,7 @@
       </b-form>
     </b-card>
   </div>
-</template>
-
-<script>
-import Input from "../template/Input";
-import { uuid } from "vue-uuid";
-export default {
+`,
   components: {
     Input,
   },

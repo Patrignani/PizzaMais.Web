@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import PageTitle from "../../template/PageTitle";
+import PageTitle from "../../components/template/PageTitle";
 export default {
   components: {
     PageTitle,

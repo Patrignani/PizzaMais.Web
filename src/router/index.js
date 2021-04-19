@@ -2,12 +2,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Home2 from '../components/home/Home.vue'
-import UnidadeMedidaLista from '../components/views/unidade-de-medida/Lista.vue'
-import UnidadeMedidaCadastro from '../components/views/unidade-de-medida/Cadastro.vue'
-import IngredienteCadastro from '../components/views/ingrediente/Cadastro.vue'
-import IngredienteLista from '../components/views/ingrediente/Lista.vue'
-import BordaCadastro from '../components/views/borda/Cadastro.vue'
-import BordaLista from '../components/views/borda/Lista.vue'
+import UnidadeMedidaLista from '../views/unidade-de-medida/Lista.vue'
+import UnidadeMedidaCadastro from '../views/unidade-de-medida/Cadastro.vue'
+import IngredienteCadastro from '../views/ingrediente/Cadastro.vue'
+import IngredienteLista from '../views/ingrediente/Lista.vue'
+import BordaCadastro from '../views/borda/Cadastro.vue'
+import BordaLista from '../views/borda/Lista.vue'
 
 Vue.use(VueRouter)
 

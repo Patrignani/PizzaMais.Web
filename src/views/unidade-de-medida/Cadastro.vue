@@ -1,16 +1,11 @@
 <template>
-  <div class="borda-component">
-    <page-title icon="utensils" icon-type="2" main="Borda" sub="Cadastro" />
-
-    <b-alert
-      v-model="showTop"
-      class="position-fixed fixed-bottom m-0 rounded-0"
-      style="z-index: 2000"
-      :variant="variant"
-      dismissible
-    >
-      {{ message }}
-    </b-alert>
+  <div class="unidade-medida-component">
+    <page-title
+      icon="ruler"
+      icon-type="2"
+      main="Unidade de Medida"
+      sub="Cadastro"
+    />
 
     <div class="body">
       <b-card>
@@ -19,7 +14,7 @@
             <b-col sm="1">
               <Input
                 labelGroupName="Id"
-                inputId="borda-id"
+                inputId="unidade-medida-id"
                 :value="model.id"
                 :disabled="true"
                 v-on:input="model.id = $event"
@@ -28,7 +23,7 @@
             <b-col sm="7">
               <Input
                 labelGroupName="Descrição"
-                inputId="borda-descricao"
+                inputId="unidade-medida-descricao"
                 :value="model.descricao"
                 v-on:input="model.descricao = $event"
                 :disabled="!state"
@@ -41,20 +36,24 @@
             </b-col>
             <b-col sm="3">
               <Input
-                labelGroupName="Valor"
-                inputId="borda-valor"
-                :value="model.valor"
-                v-on:input="model.valor = $event"
+                labelGroupName="Sigla"
+                inputId="unidade-medida-sigla"
+                :value="model.sigla"
+                v-on:input="model.sigla = $event"
                 :disabled="!state"
-                type="number"
+                :validate="{
+                  using: true,
+                  state: validate.sigla.isValid,
+                  message: validate.sigla.message,
+                }"
               />
             </b-col>
             <b-col sm="1">
-              <b-form-group label="Ativo" label-for="borda-ativo">
+              <b-form-group label="Ativo" label-for="unidade-medida-ativo">
                 <b-form-checkbox
                   :disabled="!state"
                   v-model="model.ativo"
-                  id="borda-ativo"
+                  id="unidade-medida-ativo"
                   switch
                 ></b-form-checkbox>
               </b-form-group>
@@ -68,9 +67,9 @@
 </template>
 
 <script>
-import PageTitle from "../../template/PageTitle";
-import Input from "../../template/Input";
-import ButtonsForm from "../../template/ButtonsForm";
+import PageTitle from "../../components/template/PageTitle";
+import Input from "../../components/template/Input";
+import ButtonsForm from "../../components/template/ButtonsForm";
 
 export default {
   components: {
@@ -105,11 +104,16 @@ export default {
     return {
       model: {
         id: 0,
+        sigla: "",
         descricao: "",
-        valor: 0,
-        ativo:true
+        ativo: true,
       },
       validate: {
+        sigla: {
+          isValid: undefined,
+          message: "Campo obrigatório",
+          Valid: () => this.model.sigla.length > 1,
+        },
         descricao: {
           isValid: undefined,
           message: "Campo obrigatório",
@@ -117,22 +121,16 @@ export default {
         },
       },
       state: true,
-      showTop: false,
-      message: "",
-      variant: "success",
     };
   },
   methods: {
     onSubmit() {
-      this.message = "Salvo com sucesso!";
-      this.showTop = true;
-
-      setTimeout(() => (this.showTop = false), 1500);
-
       this.state = false;
+      this.validate.sigla.isValid = this.validate.sigla.Valid();
       this.validate.descricao.isValid = this.validate.descricao.Valid();
 
-      if (this.validate.descricao.isValid) console.log("Ok");
+      if (this.validate.sigla.isValid && this.validate.descricao.isValid)
+        console.log("Ok");
     },
   },
   created() {

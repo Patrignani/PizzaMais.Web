@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import PageTitle from "../../template/PageTitle";
+import PageTitle from "../../components/template/PageTitle";
 //import { BTabs } from "bootstrap-vue";
 
 export default {

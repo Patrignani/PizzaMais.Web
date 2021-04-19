@@ -1,9 +1,9 @@
 <template>
-  <div class="unidade-medida-component">
+  <div class="ingrediente-component">
     <page-title
-      icon="ruler"
+      icon="weight"
       icon-type="2"
-      main="Unidade de Medida"
+      main="Ingredientes"
       sub="Cadastro"
     />
 
@@ -14,16 +14,16 @@
             <b-col sm="1">
               <Input
                 labelGroupName="Id"
-                inputId="unidade-medida-id"
+                inputId="ingrediente-id"
                 :value="model.id"
                 :disabled="true"
                 v-on:input="model.id = $event"
               />
             </b-col>
-            <b-col sm="7">
+            <b-col sm="10">
               <Input
                 labelGroupName="Descrição"
-                inputId="unidade-medida-descricao"
+                inputId="ingrediente-descricao"
                 :value="model.descricao"
                 v-on:input="model.descricao = $event"
                 :disabled="!state"
@@ -34,26 +34,12 @@
                 }"
               />
             </b-col>
-            <b-col sm="3">
-              <Input
-                labelGroupName="Sigla"
-                inputId="unidade-medida-sigla"
-                :value="model.sigla"
-                v-on:input="model.sigla = $event"
-                :disabled="!state"
-                :validate="{
-                  using: true,
-                  state: validate.sigla.isValid,
-                  message: validate.sigla.message,
-                }"
-              />
-            </b-col>
             <b-col sm="1">
-              <b-form-group label="Ativo" label-for="unidade-medida-ativo">
+              <b-form-group label="Ativo" label-for="ingredientes-ativo">
                 <b-form-checkbox
                   :disabled="!state"
                   v-model="model.ativo"
-                  id="unidade-medida-ativo"
+                  id="ingredientes-ativo"
                   switch
                 ></b-form-checkbox>
               </b-form-group>
@@ -67,9 +53,9 @@
 </template>
 
 <script>
-import PageTitle from "../../template/PageTitle";
-import Input from "../../template/Input";
-import ButtonsForm from "../../template/ButtonsForm";
+import PageTitle from "../../components/template/PageTitle";
+import Input from "../../components/template/Input";
+import ButtonsForm from "../../components/template/ButtonsForm";
 
 export default {
   components: {
@@ -104,16 +90,10 @@ export default {
     return {
       model: {
         id: 0,
-        sigla: "",
         descricao: "",
-        ativo: true,
+        ativo: true
       },
       validate: {
-        sigla: {
-          isValid: undefined,
-          message: "Campo obrigatório",
-          Valid: () => this.model.sigla.length > 1,
-        },
         descricao: {
           isValid: undefined,
           message: "Campo obrigatório",
@@ -126,11 +106,13 @@ export default {
   methods: {
     onSubmit() {
       this.state = false;
-      this.validate.sigla.isValid = this.validate.sigla.Valid();
-      this.validate.descricao.isValid = this.validate.descricao.Valid();
 
-      if (this.validate.sigla.isValid && this.validate.descricao.isValid)
-        console.log("Ok");
+      if (this.validate.descricao.Valid()) {
+        this.validate.descricao.isValid = undefined;
+        alert(this.validate.descricao.isValid);
+      } else {
+        this.validate.descricao.isValid = false;
+      }
     },
   },
   created() {
