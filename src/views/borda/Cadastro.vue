@@ -50,14 +50,13 @@
               />
             </b-col>
             <b-col sm="1">
-              <b-form-group label="Ativo" label-for="borda-ativo">
-                <b-form-checkbox
-                  :disabled="!state"
-                  v-model="model.ativo"
-                  id="borda-ativo"
-                  switch
-                ></b-form-checkbox>
-              </b-form-group>
+              <Checkbox
+                labelGroupName="Ativo"
+                inputId="borda-ativo"
+                :disabled="!state"
+                :value="model.ativo"
+                v-on:checkBox="model.ativo = $event"
+              />
             </b-col>
           </b-row>
           <ButtonsForm :configButtons="configButtons" />
@@ -71,12 +70,14 @@
 import PageTitle from "../../components/template/PageTitle";
 import Input from "../../components/template/Input";
 import ButtonsForm from "../../components/template/ButtonsForm";
+import Checkbox from "../../components/template/Checkbox";
 
 export default {
   components: {
     PageTitle,
     Input,
     ButtonsForm,
+    Checkbox,
   },
   computed: {
     configButtons() {
@@ -107,7 +108,7 @@ export default {
         id: 0,
         descricao: "",
         valor: 0,
-        ativo:true
+        ativo: true,
       },
       validate: {
         descricao: {

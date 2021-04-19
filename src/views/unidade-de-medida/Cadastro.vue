@@ -49,14 +49,13 @@
               />
             </b-col>
             <b-col sm="1">
-              <b-form-group label="Ativo" label-for="unidade-medida-ativo">
-                <b-form-checkbox
-                  :disabled="!state"
-                  v-model="model.ativo"
-                  id="unidade-medida-ativo"
-                  switch
-                ></b-form-checkbox>
-              </b-form-group>
+              <Checkbox
+                labelGroupName="Ativo"
+                inputId="unidade-medida-ativo"
+                :disabled="!state"
+                :value="model.ativo"
+                v-on:checkBox="model.ativo = $event"
+              />
             </b-col>
           </b-row>
           <ButtonsForm :configButtons="configButtons" />
@@ -70,12 +69,14 @@
 import PageTitle from "../../components/template/PageTitle";
 import Input from "../../components/template/Input";
 import ButtonsForm from "../../components/template/ButtonsForm";
+import Checkbox from "../../components/template/Checkbox";
 
 export default {
   components: {
     PageTitle,
     Input,
     ButtonsForm,
+    Checkbox,
   },
   computed: {
     configButtons() {
@@ -125,12 +126,13 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.state = false;
-      this.validate.sigla.isValid = this.validate.sigla.Valid();
-      this.validate.descricao.isValid = this.validate.descricao.Valid();
+      console.log(this.model.ativo);
+      //   this.state = false;
+      //   this.validate.sigla.isValid = this.validate.sigla.Valid();
+      //   this.validate.descricao.isValid = this.validate.descricao.Valid();
 
-      if (this.validate.sigla.isValid && this.validate.descricao.isValid)
-        console.log("Ok");
+      //   if (this.validate.sigla.isValid && this.validate.descricao.isValid)
+      //     console.log("Ok");
     },
   },
   created() {
