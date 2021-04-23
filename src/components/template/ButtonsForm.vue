@@ -3,35 +3,44 @@
     <b-button
       size="lg"
       variant="primary"
-      v-if="configButtons.state"
+      v-if="state"
       @click="configButtons.cancel"
       >Cancelar</b-button
     >
     <b-button
       size="lg"
       variant="primary"
-      v-if="configButtons.state"
+      v-if="state"
       @click="configButtons.save"
       >Salvar</b-button
     >
     <b-button
       size="lg"
       variant="primary"
-      v-if="!configButtons.state"
+      v-if="!state"
       @click="configButtons.back"
       >Voltar</b-button
     >
     <b-button
       size="lg"
       variant="primary"
-      v-if="!configButtons.state"
+      v-if="!state"
       @click="configButtons.edit"
       >Editar</b-button
+    >
+
+        <b-button
+      size="lg"
+      variant="primary"
+      v-if="!state"
+      @click="configButtons.newState"
+      >Novo</b-button
     >
   </div>
 </template>
 
 <script>
+
 export default {
   props: {
     configButtons: {
@@ -39,8 +48,9 @@ export default {
       back: Function,
       edit: Function,
       cancel: Function,
-      state: Boolean,
+      newState: Function
     },
+    state: Boolean,
   },
 };
 </script>

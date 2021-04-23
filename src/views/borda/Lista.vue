@@ -10,6 +10,9 @@ export default {
   components: {
     PageTitle,
   },
+  mounted(){
+    console.log(process.env.VUE_APP_STATE)
+    }
 };
 </script>
 

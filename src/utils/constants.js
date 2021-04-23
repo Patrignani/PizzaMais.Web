@@ -9,3 +9,8 @@ export const APP = {
     CONFIGURACAO: 'app/CONFIGURACAO',
     NOTSUBMENU: 'app/NOTSUBMENU'
 }
+
+export const PAGE = {
+    STATE: 'page/STATE',
+    NAMEPATH: 'page/NAMEPATH'
+}

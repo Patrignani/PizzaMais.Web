@@ -9,7 +9,7 @@
 
     <div class="body">
       <b-card>
-        <b-form @submit="onSubmit">
+        <b-form>
           <b-row class="body-col">
             <b-col sm="1">
               <Input
@@ -22,15 +22,15 @@
             </b-col>
             <b-col sm="10">
               <Input
-                labelGroupName="Descrição"
-                inputId="ingrediente-descricao"
-                :value="model.descricao"
-                v-on:input="model.descricao = $event"
+                labelGroupName="Nome"
+                inputId="ingrediente-nome"
+                :value="model.nome"
+                v-on:input="model.nome = $event"
                 :disabled="!state"
                 :validate="{
                   using: true,
-                  state: validate.descricao.isValid,
-                  message: validate.descricao.message,
+                  state: validate.nome.isValid,
+                  message: validate.nome.message,
                 }"
               />
             </b-col>
@@ -44,7 +44,7 @@
               />
             </b-col>
           </b-row>
-          <ButtonsForm :configButtons="configButtons" />
+          <ButtonsForm :configButtons="configButtons" :state="state" />
         </b-form>
       </b-card>
     </div>
@@ -56,71 +56,49 @@ import PageTitle from "../../components/template/PageTitle";
 import Input from "../../components/template/Input";
 import ButtonsForm from "../../components/template/ButtonsForm";
 import Checkbox from "../../components/template/Checkbox";
+import PageService from "../../services/pageService";
+import validatorBasico from "../../validators/basico";
+import { PAGE } from "../../utils/constants";
 
 export default {
   components: {
     PageTitle,
     Input,
     ButtonsForm,
-    Checkbox
+    Checkbox,
   },
   computed: {
     configButtons() {
-      return {
-        save: () => {
-          this.onSubmit();
-        },
-        back: () => {
-          this.$router.go(-1);
-        },
-        edit: () => {
-          this.state = true;
-        },
-        cancel: () => {
-          if (this.model.id == 0) {
-            this.$router.go(-1);
-          } else {
-            this.state = false;
-          }
-        },
-        state: this.state,
-      };
+      return this.pageService.configButtons;
+    },
+    state() {
+      let state = this.$store.getters[PAGE.STATE];
+      return state == 1 || state == 2;
     },
   },
   data() {
     return {
+      name: "ingrediente",
+      pageService: new PageService(this, "ingredienteService"),
       model: {
         id: 0,
-        descricao: "",
+        nome: "",
         ativo: true,
       },
-      validate: {
-        descricao: {
-          isValid: undefined,
-          message: "Campo obrigatório",
-          Valid: () => this.model.descricao.length > 1,
-        },
-      },
-      state: true,
+      validate: new validatorBasico(),
     };
   },
   methods: {
-    onSubmit() {
-      this.state = false;
-
-      if (this.validate.descricao.Valid()) {
-        this.validate.descricao.isValid = undefined;
-        alert(this.validate.descricao.isValid);
-      } else {
-        this.validate.descricao.isValid = false;
-      }
+    newModel() {
+      this.model = {
+        id: 0,
+        nome: "",
+        ativo: true,
+      };
     },
   },
-  created() {
-    if (this.$route.params.id && this.$route.params.id != "new")
-      this.model.id = parseInt(this.$route.params.id);
-
-    if (this.$route.params.state != "edit") this.state = false;
+  async mounted() {
+    this.pageService.init();
   },
 };
 </script>

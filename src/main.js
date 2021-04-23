@@ -9,14 +9,19 @@ import 'bootstrap-vue/dist/bootstrap-vue-icons.css'
 import './assets/style/geral.css'
 import Unicon from 'vue-unicons/dist/vue-unicons-vue2.umd'
 import { uniRuler, uniWeight, uniUtensils  } from 'vue-unicons/dist/icons'
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
+Vue.use(VueToast);
 Vue.component('b-toast', BToast)
+Vue.use(Loading);
 Vue.use(ToastPlugin)
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Unicon.add([uniRuler, uniWeight, uniUtensils])
 Vue.use(Unicon)
-
 Vue.config.productionTip = false
 
 new Vue({
