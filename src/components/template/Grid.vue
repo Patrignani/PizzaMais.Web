@@ -1,6 +1,65 @@
 <template>
   <div class="grid-component">
+    <table>
+      <thead>
+        <tr>
+          <th
+            class="th-grid"
+            :style="trClass"
+            v-for="field in fields"
+            :key="field.nome"
+          >
+            <div class="th-grid-body">
+              <div>
+                {{ field.nome }}
+              </div>
+              <div class="order">
+                <unicon
+                  name="arrow-circle-down"
+                  v-if="field.orderby"
+                  :fill="color"
+                  @click="field.orderby = !field.orderby"
+                ></unicon>
+                <unicon
+                  name="arrow-circle-up"
+                  v-if="!field.orderby"
+                  :fill="color"
+                  @click="field.orderby = !field.orderby"
+                ></unicon>
+              </div>
+              <div class="filter">
+                <unicon
+                  name="filter"
+                  v-if="!field.visible"
+                  :fill="color"
+                  @click="field.visible = !field.visible"
+                ></unicon>
 
+                <unicon
+                  name="filter-slash"
+                  v-if="field.visible"
+                  :fill="color"
+                  @click="field.visible = !field.visible"
+                ></unicon>
+              </div>
+            </div>
+
+            <div v-if="field.visible">
+              <input
+                class="input-filter"
+                type="text"
+                v-on:keyup="filterClick"
+              />
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody :class="trBodyClass">
+        <tr v-for="item in items" :key="item.age">
+          <td :style="tdClass" v-for="i in item" :key="i">{{ i }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
