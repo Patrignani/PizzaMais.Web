@@ -25,7 +25,9 @@ export default class Page {
                     break;
             }
 
+            let loader = obterLoader(this)
             let value = await this.server.obter(this.vueComponent.model.id)
+            loader.hide()
             this.vueComponent.model = value.data
         }
         else {
@@ -33,6 +35,15 @@ export default class Page {
             this.vueComponent.newModel()
         }
     }
+}
+
+const obterLoader = (self) => {
+    return self.vueComponent.$loading.show({
+        loader: 'Bars',
+        height: 128,
+        width: 128,
+        color: '#0062cc'
+    });
 }
 
 const routerRedirect = (self, state) => {
@@ -52,12 +63,7 @@ const routerRedirect = (self, state) => {
 
 const insert = (self) => {
     if (self.vueComponent.validate.valid(self.vueComponent.model)) {
-        let loader = self.vueComponent.$loading.show({
-            loader: 'Bars',
-            height: 128,
-            width: 128,
-            color: '#0062cc'
-        });
+        let loader = obterLoader(self)
 
         const actionError = (error) => {
             console.log(error)
