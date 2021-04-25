@@ -7,9 +7,15 @@
       hover
       responsive="sm"
     >
-      <template #cell(show_details)="row">
-        <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-          aaaa
+      <template #cell(Editar)="row">
+        <b-button size="sm" @click="row.toggleDetails" variant="primary" >
+          <unicon name="edit" fill="#fff"></unicon>
+        </b-button>
+      </template>
+
+            <template #cell(Excluir)="row">
+        <b-button size="sm" @click="row.toggleDetails" variant="primary" >
+          <unicon name="trash-alt" fill="#fff"></unicon>
         </b-button>
       </template>
     </b-table>
@@ -24,7 +30,7 @@ export default {
       color: "#fff",
       orderby: true,
       visible: false,
-      fields: ["first_name", "age", "last_name", "show_details"],
+      fields: ["first_name", "age", "last_name", "Editar", "Excluir"],
       items: [
         { age: 40, first_name: "Dickerson", last_name: "Macdonald" },
         { age: 21, first_name: "Larsen", last_name: "Shaw" },
@@ -72,5 +78,9 @@ th {
 .input-filter {
   align-items: center;
   margin-left: auto;
+}
+
+.edit-button{
+  background-color:  #28a745
 }
 </style>
