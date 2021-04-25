@@ -1,101 +1,30 @@
 <template>
   <div class="grid-component">
-    <table>
-      <thead>
-        <tr>
-          <th
-            class="th-grid"
-            :style="trClass"
-            v-for="field in fields"
-            :key="field.nome"
-          >
-            <div class="th-grid-body">
-              <div>
-                {{ field.nome }}
-              </div>
-              <div class="order">
-                <unicon
-                  name="arrow-circle-down"
-                  v-if="field.orderby"
-                  :fill="color"
-                  @click="field.orderby = !field.orderby"
-                ></unicon>
-                <unicon
-                  name="arrow-circle-up"
-                  v-if="!field.orderby"
-                  :fill="color"
-                  @click="field.orderby = !field.orderby"
-                ></unicon>
-              </div>
-              <div class="filter">
-                <unicon
-                  name="filter"
-                  v-if="!field.visible"
-                  :fill="color"
-                  @click="field.visible = !field.visible"
-                ></unicon>
-
-                <unicon
-                  name="filter-slash"
-                  v-if="field.visible"
-                  :fill="color"
-                  @click="field.visible = !field.visible"
-                ></unicon>
-              </div>
-            </div>
-
-            <div v-if="field.visible">
-              <input
-                class="input-filter"
-                type="text"
-                v-on:keyup="filterClick"
-              />
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody :class="trBodyClass">
-        <tr v-for="item in items" :key="item.age">
-          <td :style="tdClass" v-for="i in item" :key="i">{{ i }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <b-table
+      :items="items"
+      :fields="fields"
+      head-variant="light"
+      hover
+      responsive="sm"
+    >
+      <template #cell(show_details)="row">
+        <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+          aaaa
+        </b-button>
+      </template>
+    </b-table>
   </div>
 </template>
 
 <script>
 export default {
-  computed: {
-    trBodyClass() {
-      return this.selectedFilter ? "tr-body" : "";
-    },
-    trClass() {
-      return "padding: 8px;";
-    },
-    tdClass() {
-      return "padding: 10px;";
-    },
-  },
-  methods: {
-    filterClick(e) {
-      if (e.keyCode === 13) {
-        alert("Enter was pressed");
-      } else if (e.keyCode === 50) {
-        alert("@ was pressed");
-      }
-    },
-  },
   data() {
     return {
       selectedFilter: true,
       color: "#fff",
       orderby: true,
       visible: false,
-      fields: [
-          {nome: "first_name", orderby:false, visible:false},
-          {nome: "first_name", orderby:false, visible:false},
-          {nome: "first_name", orderby:false, visible:false}
-      ],
+      fields: ["first_name", "age", "last_name", "show_details"],
       items: [
         { age: 40, first_name: "Dickerson", last_name: "Macdonald" },
         { age: 21, first_name: "Larsen", last_name: "Shaw" },
@@ -117,11 +46,6 @@ export default {
 td,
 th {
   border: 1px solid #dee2e6;
-}
-
-.th-grid {
-  background-color: #49a7c1;
-  color: #fff;
 }
 
 .th-grid-body {
