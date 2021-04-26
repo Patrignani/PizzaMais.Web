@@ -23,6 +23,7 @@ export default {
   position: sticky;
   flex-direction: column;
   color: #49a7c1;
+  height: 77px;
 }
 
 .page-title h1 {
