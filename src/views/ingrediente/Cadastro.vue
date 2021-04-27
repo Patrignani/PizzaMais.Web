@@ -2,7 +2,7 @@
   <div class="ingrediente-component">
     <page-title
       icon="weight"
-      icon-type="2"
+      :icon-type="2"
       main="Ingredientes"
       sub="Cadastro"
     />
