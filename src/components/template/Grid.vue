@@ -216,7 +216,7 @@ export default {
           let value = {};
           this.colunas.forEach((element) => {
             if (element.type && element.type === "bool") {
-              value[element.field] = data[i][element.field] ? "Sim" : "NÃ£o";
+              value[element.field] = data[i][element.field] ? "Sim" : "Não";
             } else {
               value[element.field] = data[i][element.field];
             }
@@ -232,7 +232,7 @@ export default {
   },
   data() {
     return {
-      gridMessage: "NÃ£o existe Itens a serem exibidos",
+      gridMessage: "Não existe Itens a serem exibidos",
       itens: [],
       filtros: {},
     };
