@@ -2,7 +2,7 @@
   <div>
     <table class="table-th">
       <thead>
-        <tr style="border: 1px solid">
+        <tr>
           <th
             class="th-grid"
             v-for="field in fields"
@@ -37,14 +37,14 @@
                     name="filter"
                     v-if="!field.filter"
                     :fill="iconColor"
-                    @click="field.filter = !field.filter"
+                    @click="filterIconClick(field)"
                   ></unicon>
 
                   <unicon
                     name="filter-slash"
                     v-if="field.filter"
                     :fill="iconColor"
-                    @click="field.filter = !field.filter"
+                    @click="filterIconClick(field)"
                   ></unicon>
                 </div>
               </div>
@@ -52,7 +52,7 @@
             <div v-if="field.filter">
               <b-form-input
                 v-if="field.type == 'text' || field.type == 'number'"
-                v-model="filtros[field.nome]"
+                v-model="filtros[field.field]"
                 :type="field.type"
                 v-on:keyup="filterClick"
               ></b-form-input>
@@ -60,9 +60,17 @@
               <b-form-checkbox
                 @input="checkBoxChange"
                 v-if="field.type == 'bool'"
-                v-model="filtros[field.nome]"
+                v-model="filtros[field.field]"
                 switch
               ></b-form-checkbox>
+
+              <money
+                v-if="field.type == 'money'"
+                v-model="filtros[field.field]"
+                v-bind="money"
+                class="form-control"
+                v-on:keyup="filterClick"
+              ></money>
             </div>
           </th>
         </tr>
@@ -78,7 +86,7 @@
           <tbody :class="trBodyClass">
             <tr v-for="item in itens" :key="item.id">
               <td :style="tdClass(key)" v-for="(i, key) in item" :key="i">
-                {{ i }}
+                {{ formatBody(i, key) }}
               </td>
               <td @click="edit(item.id)" :style="tdClass('editar')">
                 <unicon name="edit" fill="#000"></unicon>
@@ -88,7 +96,6 @@
               </td>
             </tr>
           </tbody>
-          <span>{{ gridMessage }}</span>
         </table>
       </div>
     </div>
@@ -98,6 +105,18 @@
 <script>
 export default {
   props: {
+    money: {
+      type: Object,
+      default() {
+        return {
+          decimal: ",",
+          thousands: ".",
+          prefix: "R$ ",
+          precision: 2,
+          masked: false,
+        };
+      },
+    },
     rowHouve: {
       type: Boolean,
       default: true,
@@ -144,15 +163,50 @@ export default {
     },
   },
   methods: {
+    formatBody(value, key) {
+      let field = this.fields.find((field) => field.field == key);
+      if (field.type == "money") value = this.formartCurrency(value);
+      if (field.type == "bool") value = value ? "Sim" : "Não";
+
+      return value;
+    },
     async checkBoxChange() {
       this.loadGrid(true);
     },
-    ordebyClick(field) {
+    async filterIconClick(field) {
+      field.filter = !field.filter;
+
+      if (field.type == "money") this.filtros[field.field] = 0;
+      else this.filtros[field.field] = null;
+
+      if (!field.filter) this.loadGrid(true);
+    },
+    async ordebyClick(field) {
+      if (this.filtros["orderbyAsc"] == undefined)
+        this.filtros["orderbyAsc"] = [];
+      if (this.filtros["orderbyDesc"] == undefined)
+        this.filtros["orderbyDesc"] = [];
+
+      let actionDelete = (field) => {
+        this.filtros.orderbyAsc = this.filtros.orderbyAsc.filter(
+          (order) => order != field.field
+        );
+        this.filtros.orderbyDesc = this.filtros.orderbyDesc.filter(
+          (order) => order != field.field
+        );
+      };
+
       if (field.orderby < 2) {
         field.orderby++;
+        actionDelete(field);
+        if (field.orderby == 1) this.filtros.orderbyDesc.push(field.field);
+        else this.filtros.orderbyAsc.push(field.field);
       } else {
         field.orderby = 0;
+        actionDelete(field);
       }
+
+      await this.loadGrid(true);
     },
     async deletar(item) {
       let confirmado = await this.$bvModal.msgBoxConfirm(
@@ -178,7 +232,7 @@ export default {
       let heightContent = window.screen.availHeight - 60 - 77 - 20;
       let heigth = (heightContent * 69) / 100;
 
-      return `height: ${heigth}px; overflow: auto;border-left:1px solid; border-bottom:1px solid;border-right:1px solid;`;
+      return `height: ${heigth}px; overflow: auto;`;
     },
     tdClass(value) {
       let field = this.fields.find((field) => field.field == value);
@@ -193,19 +247,23 @@ export default {
     },
     async filterClick(e) {
       if (e.keyCode === 13) {
-        this.loadGrid(true);
+        await this.loadGrid(true);
       }
     },
-    handleScroll() {
+    async handleScroll() {
       if (this.itens.length > 0) {
         var element = document.getElementById("scroll-table");
         if (element.offsetHeight + element.scrollTop >= element.scrollHeight) {
-          alert("end reached");
+          this.filtros.offset += this.filtros.Limit;
+          await this.loadGrid();
         }
       }
     },
     async loadGrid(reload = false) {
       let service = require(`../../services/${this.service}`);
+
+      if (reload) this.filtros.offset = 0;
+
       let valores = await service.obterTodos(this.filtros);
       if (valores.status == 200) {
         var data = valores.data;
@@ -215,11 +273,7 @@ export default {
         for (var i = 0; i < data.length; i++) {
           let value = {};
           this.colunas.forEach((element) => {
-            if (element.type && element.type === "bool") {
-              value[element.field] = data[i][element.field] ? "Sim" : "Não";
-            } else {
-              value[element.field] = data[i][element.field];
-            }
+            value[element.field] = data[i][element.field];
           });
           this.itens.push(value);
         }
@@ -229,12 +283,23 @@ export default {
         );
       }
     },
+    formartCurrency(value) {
+      var formatter = new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      });
+
+      return formatter.format(value);
+    },
   },
   data() {
     return {
       gridMessage: "Não existe Itens a serem exibidos",
       itens: [],
-      filtros: {},
+      filtros: {
+        offset: 0,
+        Limit: 50,
+      },
     };
   },
   async mounted() {
@@ -295,7 +360,6 @@ th {
   z-index: 2;
   height: 20px;
   width: 35%;
-  border: 1px solid red;
 }
 
 .order {

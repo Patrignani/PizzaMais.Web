@@ -1,33 +1,73 @@
 <template>
   <div class="unidade-medida-component">
-    <page-title icon="ruler" icon-type="2" main="Unidade de Medida" sub="Lista" />
-  <router-link to="unidade-de-medida/1" >aaaa</router-link>
+    <page-title
+      icon="ruler"
+      :icon-type="2"
+      main="Unidade de Medida"
+      sub="Lista"
+      :buttonAdd="true"
+      rota="unidade-de-medida"
+    />
     <div class="body">
-     
-      <!-- <div class="tabs-component">
-        <b-tabs v-model="tabIndex" small card>
-          <b-tab title="General"><template /></b-tab>
-          <b-tab title="Edit profile">
-            I'm the second tab
-            <b-card>I'm the card in tab</b-card>
-          </b-tab>
-          <b-tab title="Premium Plan" disabled>Sibzamini!</b-tab>
-          <b-tab title="Info">I'm the last tab</b-tab>
-        </b-tabs>
-      </div> -->
+      <Grid
+        :colunas="colunas"
+        service="unidadeMedidaService"
+        rota="unidade-de-medida"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import PageTitle from "../../components/template/PageTitle";
-//import { BTabs } from "bootstrap-vue";
+import Grid from "../../components/template/Grid";
 
 export default {
-    components:{
-        PageTitle,
-     //   BTabs
-    }
+  components: {
+    PageTitle,
+    Grid,
+  },
+  data() {
+    return {
+      colunas: [
+        {
+          nome: "Id",
+          width: 20,
+          field: "id",
+          iconFilter: true,
+          orderby: 0,
+          filter: false,
+          type: "number",
+        },
+        {
+          nome: "Nome",
+          width: 35,
+          field: "nome",
+          iconFilter: true,
+          orderby: 0,
+          filter: false,
+          type: "text",
+        },
+        {
+          nome: "Sigla",
+          width: 15,
+          field: "sigla",
+          iconFilter: true,
+          orderby: 0,
+          filter: false,
+          type: "text",
+        },
+        {
+          nome: "Ativo",
+          width: 20,
+          field: "ativo",
+          type: "bool",
+          orderby: 0,
+          filter: false,
+        },
+      ],
+    };
+  },
 };
 </script>
 

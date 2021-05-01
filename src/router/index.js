@@ -28,7 +28,7 @@ const routes = [
     component:UnidadeMedidaLista
   },
   {
-    path: '/unidade-de-medida/:id',
+    path: '/unidade-de-medida/:id/:state?',
     name: 'Unidade de Medida Cadastro',
     component:UnidadeMedidaCadastro
   },

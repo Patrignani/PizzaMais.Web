@@ -13,12 +13,14 @@ import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import money from 'v-money'
 
 Vue.use(VueToast);
 Vue.use(Loading);
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(ModalPlugin)
+Vue.use(money, {precision: 2})
 Unicon.add([uniMinusCircle, uniRuler, uniEdit, uniPlusSquare, uniTrashAlt, uniWeight, uniUtensils, uniArrowCircleDown, uniArrowCircleUp, uniFilter, uniFilterSlash ])
 Vue.use(Unicon)
 Vue.config.productionTip = false

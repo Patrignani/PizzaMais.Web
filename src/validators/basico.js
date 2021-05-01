@@ -1,29 +1,32 @@
-const validValue = (model,field, self) => {
-    let value = model[field].length > 1
-    self[field].isValid = value ? undefined : false
-    return value
-}
 
-const validAll = (model, fields, self) => {
-    let valids = []
-    fields.forEach(field => {
-        valids.push(validValue(model, field, self))
-    });
+export default class validatorBasico {
+    constructor() {
 
-    return valids.some(valid => valid)
-}
-
-export default class validatorBasico{
-    constructor(){
-
-        this.nome= {
+        this.nome = {
             isValid: undefined,
-            message: "Campo obrigatório",
-            Valid: (model) => validValue(model, 'nome', this),
-          }
+            message: "",
+            validModel: (field) => {
+                let value = field.length > 1
+                this.nome.isValid = value ? undefined : false
+                this.nome.message = "Campo obrigatório."
+                return value
+            }
+        }
     }
-    valid(model){
-        return validAll(model, ['nome'], this)
+    valid(model) {
+        return this.validAll(model, ['nome'])
+    }
+    validValue(model, field, self) {
+        let value = model[field].length > 1
+        self[field].isValid = value ? undefined : false
+        return value
+    }
+    validAll(model, fields) {
+        let valids = []
+        fields.forEach(field => {
+            valids.push(this[field].validModel(model[field]))
+        });
+        return !valids.some(valid => !valid)
     }
 }
 

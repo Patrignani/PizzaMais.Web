@@ -1,15 +1,15 @@
 <template>
   <div class="unidade-medida-component">
     <page-title
-      icon="ruler"
-      icon-type="2"
+      icon="weight"
+      :icon-type="2"
       main="Unidade de Medida"
       sub="Cadastro"
     />
 
     <div class="body">
       <b-card>
-        <b-form @submit="onSubmit">
+        <b-form>
           <b-row class="body-col">
             <b-col sm="1">
               <Input
@@ -22,15 +22,15 @@
             </b-col>
             <b-col sm="7">
               <Input
-                labelGroupName="Descrição"
-                inputId="unidade-medida-descricao"
-                :value="model.descricao"
-                v-on:input="model.descricao = $event"
+                labelGroupName="Nome"
+                inputId="unidade-medida-nome"
+                :value="model.nome"
+                v-on:input="model.nome = $event"
                 :disabled="!state"
                 :validate="{
                   using: true,
-                  state: validate.descricao.isValid,
-                  message: validate.descricao.message,
+                  state: validate.nome.isValid,
+                  message: validate.nome.message,
                 }"
               />
             </b-col>
@@ -41,6 +41,7 @@
                 :value="model.sigla"
                 v-on:input="model.sigla = $event"
                 :disabled="!state"
+                :maxlength="3"
                 :validate="{
                   using: true,
                   state: validate.sigla.isValid,
@@ -51,14 +52,14 @@
             <b-col sm="1">
               <Checkbox
                 labelGroupName="Ativo"
-                inputId="unidade-medida-ativo"
+                inputId="unidade-medidas-ativo"
                 :disabled="!state"
                 :value="model.ativo"
                 v-on:checkBox="model.ativo = $event"
               />
             </b-col>
           </b-row>
-          <ButtonsForm :configButtons="configButtons" />
+          <ButtonsForm :configButtons="configButtons" :state="state" />
         </b-form>
       </b-card>
     </div>
@@ -70,6 +71,9 @@ import PageTitle from "../../components/template/PageTitle";
 import Input from "../../components/template/Input";
 import ButtonsForm from "../../components/template/ButtonsForm";
 import Checkbox from "../../components/template/Checkbox";
+import PageService from "../../services/pageService";
+import unidadeMedidaValidator from "../../validators/unidade-medida-validator";
+import { PAGE } from "../../utils/constants";
 
 export default {
   components: {
@@ -80,66 +84,38 @@ export default {
   },
   computed: {
     configButtons() {
-      return {
-        save: () => {
-          this.onSubmit();
-        },
-        back: () => {
-          this.$router.go(-1);
-        },
-        edit: () => {
-          this.state = true;
-        },
-        cancel: () => {
-          if (this.model.id == 0) {
-            this.$router.go(-1);
-          } else {
-            this.state = false;
-          }
-        },
-        state: this.state,
-      };
+      return this.pageService.configButtons;
+    },
+    state() {
+      let state = this.$store.getters[PAGE.STATE];
+      return state == 1 || state == 2;
     },
   },
   data() {
     return {
+      name: "unidade-de-medida",
+      pageService: new PageService(this, "unidadeMedidaService"),
       model: {
         id: 0,
+        nome: "",
         sigla: "",
-        descricao: "",
         ativo: true,
       },
-      validate: {
-        sigla: {
-          isValid: undefined,
-          message: "Campo obrigatório",
-          Valid: () => this.model.sigla.length > 1,
-        },
-        descricao: {
-          isValid: undefined,
-          message: "Campo obrigatório",
-          Valid: () => this.model.descricao.length > 1,
-        },
-      },
-      state: true,
+      validate: new unidadeMedidaValidator(),
     };
   },
   methods: {
-    onSubmit() {
-      console.log(this.model.ativo);
-      //   this.state = false;
-      //   this.validate.sigla.isValid = this.validate.sigla.Valid();
-      //   this.validate.descricao.isValid = this.validate.descricao.Valid();
-
-      //   if (this.validate.sigla.isValid && this.validate.descricao.isValid)
-      //     console.log("Ok");
+    newModel() {
+      this.model = {
+        id: 0,
+        nome: "",
+        sigla: "",
+        ativo: true,
+      };
     },
   },
-  created() {
-    if (this.$route.params.id && this.$route.params.id != "new")
-      this.model.id = parseInt(this.$route.params.id);
-
-    if (this.$route.params.state != "edit") this.state = false;
+  async mounted() {
+    this.pageService.init();
   },
 };
 </script>

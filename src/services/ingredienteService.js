@@ -1,4 +1,5 @@
 import axios from 'axios'
+import qs from 'qs'
 
 export const inserir = (model) => {
     return axios.post(`${process.env.VUE_APP_URL_PIZZA}/api/Ingrediente`, model)
@@ -14,7 +15,10 @@ export const obter = (id) => {
 
 export const obterTodos = (filtros) => {
     return axios.get(`${process.env.VUE_APP_URL_PIZZA}/api/Ingrediente`, {
-        params: filtros
+        params: filtros,
+        paramsSerializer: params => {
+            return qs.stringify(params)
+        }
     })
 }
 

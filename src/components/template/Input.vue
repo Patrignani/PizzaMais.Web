@@ -7,6 +7,7 @@
         :disabled="disabled"
         :state="validate.state"
         :type="type"
+        :formatter="format"
       ></b-form-input>
       <b-form-invalid-feedback :state="validate.state" v-if="validate.using">
         {{ validate.message }}
@@ -29,8 +30,8 @@ export default {
   },
   props: {
     labelGroupName: String,
-    type:{
-      default: 'text'
+    type: {
+      default: "text",
     },
     inputId: String,
     value: {
@@ -38,6 +39,14 @@ export default {
     },
     disabled: {
       default: false,
+    },
+    maxlength: {
+      type: Number,
+      default: undefined,
+    },
+    minlength: {
+      type: Number,
+      default: 0,
     },
     validate: {
       type: Object,
@@ -48,6 +57,15 @@ export default {
           message: "",
         };
       },
+    },
+  },
+  methods: {
+    format(e) {
+      if (this.maxlength) {
+        return String(e).substring(this.minlength, this.maxlength)
+      }
+
+      return e
     },
   },
 };

@@ -1,20 +1,10 @@
 <template>
   <div class="borda-component">
-    <page-title icon="utensils" icon-type="2" main="Borda" sub="Cadastro" />
-
-    <b-alert
-      v-model="showTop"
-      class="position-fixed fixed-bottom m-0 rounded-0"
-      style="z-index: 2000"
-      :variant="variant"
-      dismissible
-    >
-      {{ message }}
-    </b-alert>
+    <page-title icon="utensils" :icon-type="2" main="Borda" sub="Cadastro" />
 
     <div class="body">
       <b-card>
-        <b-form @submit="onSubmit">
+        <b-form>
           <b-row class="body-col">
             <b-col sm="1">
               <Input
@@ -27,26 +17,29 @@
             </b-col>
             <b-col sm="7">
               <Input
-                labelGroupName="Descrição"
-                inputId="borda-descricao"
-                :value="model.descricao"
-                v-on:input="model.descricao = $event"
+                labelGroupName="Nome"
+                inputId="borda-nome"
+                :value="model.nome"
+                v-on:input="model.nome = $event"
                 :disabled="!state"
                 :validate="{
                   using: true,
-                  state: validate.descricao.isValid,
-                  message: validate.descricao.message,
+                  state: validate.nome.isValid,
+                  message: validate.nome.message,
                 }"
               />
             </b-col>
             <b-col sm="3">
-              <Input
-                labelGroupName="Valor"
-                inputId="borda-valor"
-                :value="model.valor"
-                v-on:input="model.valor = $event"
+              <InputMoney
+                :value="model.preco"
+                v-on:input="model.preco = $event"
+                labelGroupName="Preço"
                 :disabled="!state"
-                type="number"
+                :validate="{
+                  using: true,
+                  state: validate.preco.isValid,
+                  message: validate.preco.message,
+                }"
               />
             </b-col>
             <b-col sm="1">
@@ -59,7 +52,7 @@
               />
             </b-col>
           </b-row>
-          <ButtonsForm :configButtons="configButtons" />
+          <ButtonsForm :configButtons="configButtons" :state="state" />
         </b-form>
       </b-card>
     </div>
@@ -69,8 +62,12 @@
 <script>
 import PageTitle from "../../components/template/PageTitle";
 import Input from "../../components/template/Input";
+import InputMoney from "../../components/template/InputMoney";
 import ButtonsForm from "../../components/template/ButtonsForm";
 import Checkbox from "../../components/template/Checkbox";
+import PageService from "../../services/pageService";
+import validatorBasico from "../../validators/borda-validator";
+import { PAGE } from "../../utils/constants";
 
 export default {
   components: {
@@ -78,69 +75,49 @@ export default {
     Input,
     ButtonsForm,
     Checkbox,
+    InputMoney,
   },
   computed: {
     configButtons() {
-      return {
-        save: () => {
-          this.onSubmit();
-        },
-        back: () => {
-          this.$router.go(-1);
-        },
-        edit: () => {
-          this.state = true;
-        },
-        cancel: () => {
-          if (this.model.id == 0) {
-            this.$router.go(-1);
-          } else {
-            this.state = false;
-          }
-        },
-        state: this.state,
-      };
+      return this.pageService.configButtons;
+    },
+    state() {
+      let state = this.$store.getters[PAGE.STATE];
+      return state == 1 || state == 2;
     },
   },
   data() {
     return {
+      money: {
+        decimal: ",",
+        thousands: ".",
+        prefix: "R$ ",
+        precision: 2,
+        masked: false,
+      },
+      name: "borda",
+      pageService: new PageService(this, "borda-service"),
       model: {
         id: 0,
-        descricao: "",
-        valor: 0,
+        nome: "",
+        preco: 0,
         ativo: true,
       },
-      validate: {
-        descricao: {
-          isValid: undefined,
-          message: "Campo obrigatório",
-          Valid: () => this.model.descricao.length > 1,
-        },
-      },
-      state: true,
-      showTop: false,
-      message: "",
-      variant: "success",
+      validate: new validatorBasico(),
     };
   },
   methods: {
-    onSubmit() {
-      this.message = "Salvo com sucesso!";
-      this.showTop = true;
-
-      setTimeout(() => (this.showTop = false), 1500);
-
-      this.state = false;
-      this.validate.descricao.isValid = this.validate.descricao.Valid();
-
-      if (this.validate.descricao.isValid) console.log("Ok");
+    newModel() {
+      this.model = {
+        id: 0,
+        nome: "",
+        preco: 0,
+        ativo: true,
+      };
     },
   },
-  created() {
-    if (this.$route.params.id && this.$route.params.id != "new")
-      this.model.id = parseInt(this.$route.params.id);
-
-    if (this.$route.params.state != "edit") this.state = false;
+  async mounted() {
+    this.pageService.init();
   },
 };
 </script>
