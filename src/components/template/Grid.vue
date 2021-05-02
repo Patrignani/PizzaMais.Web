@@ -69,7 +69,7 @@
                 v-model="filtros[field.field]"
                 v-bind="money"
                 class="form-control"
-                v-on:keyup="filterClick"
+                @keyup.native="filterClick"
               ></money>
             </div>
           </th>
