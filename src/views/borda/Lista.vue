@@ -12,7 +12,7 @@
       <Grid
         :colunas="colunas"
         service="borda-service"
-        rota="unidade-de-medida"
+        rota="borda"
       />
     </div>
   </div>
