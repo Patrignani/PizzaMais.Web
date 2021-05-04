@@ -16,6 +16,7 @@
     "highlight": "^0.2.4",
     "liquor-tree": "^0.2.70",
     "qs": "^6.10.1",
+    "v-mask": "^2.2.4",
     "v-money": "^0.8.1",
     "vue": "^2.6.11",
     "vue-loading-overlay": "^3.4.2",

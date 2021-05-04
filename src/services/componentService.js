@@ -3,6 +3,7 @@ import { APP } from '../utils/constants'
 export const cadastro = (state) => {
     let menuList = [
         { nome: "Pizza", descricao: "Cadastro de Pizza", router: "/test" },
+        { nome: "Fornecedor", descricao: "Cadastro de Fornecedor", router: "/fornecedor" },
         { nome: "Borda", descricao: "Cadastro de Borda", router: "/borda" },
         { nome: "Ingredientes", descricao: "Cadastro de Ingredientes", router: "/ingrediente" },
         { nome: "Unidade de Medida", descricao: "Cadastro de Unidade de Medida", router: "/unidade-de-medida" }

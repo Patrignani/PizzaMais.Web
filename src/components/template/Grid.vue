@@ -315,6 +315,11 @@ export default {
   color: #212529;
   cursor: default;
 }
+
+table{
+ background-color: #fff;
+}
+
 /* .grid-component table,
 td,
 th {
