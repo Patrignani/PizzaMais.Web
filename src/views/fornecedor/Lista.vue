@@ -3,7 +3,7 @@
     <page-title
       icon="chat-bubble-user"
       :icon-type="2"
-      main="fornecedor"
+      main="Fornecedor"
       sub="Lista"
       :buttonAdd="true"
       rota="fornecedor"
@@ -31,7 +31,7 @@ export default {
       colunas: [
         {
           nome: "Id",
-          width: 10,
+          width: 15,
           field: "id",
           iconFilter: true,
           orderby: 0,
@@ -49,7 +49,7 @@ export default {
         },
         {
           nome: "Tipo do Documento",
-          width: 10,
+          width: 15,
           field: "tipoDocumentoNome",
           iconFilter: true,
           orderby: 0,
@@ -67,7 +67,7 @@ export default {
         },
         {
           nome: "Ativo",
-          width: 20,
+          width: 10,
           field: "ativo",
           type: "bool",
           orderby: 0,

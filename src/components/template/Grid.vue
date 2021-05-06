@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <table class="table-th">
+  <div id="grid-component" class="grid-component">
+    <table id="table-th" class="table-th">
       <thead>
         <tr>
           <th
@@ -51,6 +51,7 @@
             </div>
             <div v-if="field.filter">
               <b-form-input
+                size="sm"
                 v-if="field.type == 'text' || field.type == 'number'"
                 v-model="filtros[field.field]"
                 :type="field.type"
@@ -68,7 +69,7 @@
                 v-if="field.type == 'money'"
                 v-model="filtros[field.field]"
                 v-bind="money"
-                class="form-control"
+                class="form-control form-control-sm"
                 @keyup.native="filterClick"
               ></money>
             </div>
@@ -81,6 +82,7 @@
         id="scroll-table"
         v-on:scroll.passive="handleScroll"
         :style="scrollBody()"
+        class="scroll-table"
       >
         <table class="table">
           <tbody :class="trBodyClass">
@@ -103,6 +105,7 @@
 </template>
 
 <script>
+import { APP } from "../../utils/constants";
 export default {
   props: {
     money: {
@@ -232,18 +235,33 @@ export default {
       let heightContent = window.screen.availHeight - 60 - 77 - 20;
       let heigth = (heightContent * 69) / 100;
 
-      return `height: ${heigth}px; overflow: auto;`;
+      return `height: ${heigth}px; height-max:${heigth}px;height-min:${heigth}px;`;
     },
     tdClass(value) {
       let field = this.fields.find((field) => field.field == value);
       let cursos = "default";
+      let width = this.obterWidth(field.width);
 
       if (value == "excluir" || value == "editar") cursos = "pointer";
 
-      return `padding: 10px;width:${field.width}%; cursor: ${cursos};`;
+      return `width:${width}px;max-width:${width}px; min-width:${width}px;cursor: ${cursos};`;
     },
     trClass(value) {
-      return `padding: 5px; width:${value}%; cursor:default`;
+      let width = this.obterWidth(value);
+      return `width:${width}px;`;
+    },
+    obterWidth(value) {
+      let menu = this.$store.getters[APP.TOGGLEMENU];
+      let subMenu = this.$store.getters[APP.TOGGLESUBMENU];
+      let widthContent = window.screen.availWidth - 15;
+
+      widthContent -= menu ? 110 : 20;
+
+      if (subMenu) widthContent -= 200;
+
+      let width = (widthContent * value) / 100;
+
+      return width;
     },
     async filterClick(e) {
       if (e.keyCode === 13) {
@@ -311,28 +329,26 @@ export default {
 <style>
 .grid-component table {
   width: 100%;
-  margin-bottom: 1rem;
   color: #212529;
   cursor: default;
 }
-
-table{
- background-color: #fff;
+.table {
+  background-color: #fff;
 }
-
-/* .grid-component table,
-td,
-th {
-  border: 1px solid #dee2e6;
-} */
-
+.table td {
+  word-wrap: break-word;
+  padding: 5px;
+}
 .table-th {
   width: 100%;
+  box-shadow: 0px 0px 8px rgb(56, 56, 56);
 }
 
 .th-grid {
   background-color: #49a7c1;
   color: #fff;
+  padding: 5px;
+  cursor: default;
 }
 
 .th-grid-body {
@@ -366,13 +382,18 @@ th {
   height: 20px;
   width: 35%;
 }
-
 .order {
   cursor: pointer;
 }
-
 .input-filter {
   align-items: center;
   margin-left: auto;
+}
+.grid-component {
+  font-size: 15px;
+}
+.scroll-table {
+  box-shadow: 0px 0px 8px rgb(56, 56, 56);
+  overflow: auto;
 }
 </style>

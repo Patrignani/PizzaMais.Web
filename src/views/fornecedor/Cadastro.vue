@@ -6,7 +6,6 @@
       main="Fornecedor"
       sub="Cadastro"
     />
-ARRUMNAR PREÇO E DEIXAR GRID GRANDE
     <div class="body">
       <b-card>
         <b-form>
