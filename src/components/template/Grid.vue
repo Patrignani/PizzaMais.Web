@@ -1,5 +1,5 @@
 <template>
-  <div id="grid-component" class="grid-component">
+  <div id="grid-component" class="grid-component"   :style="widthStartTable()">
     <table id="table-th" class="table-th">
       <thead>
         <tr>
@@ -72,6 +72,13 @@
                 class="form-control form-control-sm"
                 @keyup.native="filterClick"
               ></money>
+
+              <b-form-select
+                @input="checkBoxChange"
+                v-if="field.type == 'option'"
+                v-model="filtros[field.field]"
+                :options="field.options"
+              ></b-form-select>
             </div>
           </th>
         </tr>
@@ -233,7 +240,7 @@ export default {
     },
     scrollBody() {
       let heightContent = window.screen.availHeight - 60 - 77 - 20;
-      let heigth = (heightContent * 69) / 100;
+      let heigth = (heightContent * 70) / 100;
 
       return `height: ${heigth}px; height-max:${heigth}px;height-min:${heigth}px;`;
     },
@@ -250,7 +257,16 @@ export default {
       let width = this.obterWidth(value);
       return `width:${width}px;`;
     },
+    widthStartTable(){
+      return `max-width: ${this.calcularWidth()}px`
+    },
     obterWidth(value) {
+      let widthContent = this.calcularWidth()
+      let width = (widthContent * value) / 100;
+
+      return width;
+    },
+    calcularWidth() {
       let menu = this.$store.getters[APP.TOGGLEMENU];
       let subMenu = this.$store.getters[APP.TOGGLESUBMENU];
       let widthContent = window.screen.availWidth - 15;
@@ -259,9 +275,7 @@ export default {
 
       if (subMenu) widthContent -= 200;
 
-      let width = (widthContent * value) / 100;
-
-      return width;
+      return widthContent;
     },
     async filterClick(e) {
       if (e.keyCode === 13) {
@@ -291,7 +305,9 @@ export default {
         for (var i = 0; i < data.length; i++) {
           let value = {};
           this.colunas.forEach((element) => {
-            value[element.field] = data[i][element.field];
+            if (data[i][element.fieldText])
+              value[element.field] = data[i][element.fieldText];
+            else value[element.field] = data[i][element.field];
           });
           this.itens.push(value);
         }

@@ -1,15 +1,19 @@
 <template>
-  <div class="fornecedor-component">
+  <div class="produto-revenda-component">
     <page-title
-      icon="chat-bubble-user"
+      icon="truck-loading"
       :icon-type="2"
-      main="Fornecedor"
+      main="Produto Revenda"
       sub="Lista"
       :buttonAdd="true"
-      rota="fornecedor"
+      rota="produto-revenda"
     />
     <div class="body">
-      <Grid :colunas="colunas" service="fornecedor-service" rota="fornecedor" />
+      <Grid
+        :colunas="colunas"
+        service="produto-revenda-service"
+        rota="produto-revenda"
+      />
     </div>
   </div>
 </template>
@@ -17,7 +21,6 @@
 <script>
 import PageTitle from "../../components/template/PageTitle";
 import Grid from "../../components/template/Grid";
-
 export default {
   components: {
     PageTitle,
@@ -28,12 +31,21 @@ export default {
       colunas: [
         {
           nome: "Id",
-          width: 15,
+          width: 5,
           field: "id",
           iconFilter: true,
           orderby: 0,
           filter: false,
           type: "number",
+        },
+        {
+          nome: "Codigo",
+          width: 10,
+          field: "codigo",
+          iconFilter: true,
+          orderby: 0,
+          filter: false,
+          type: "text",
         },
         {
           nome: "Nome",
@@ -45,27 +57,22 @@ export default {
           type: "text",
         },
         {
-          nome: "Tipo do Documento",
-          width: 15,
-          field: "tipoDocumento",
-          fieldText: "tipoDocumentoNome",
-          iconFilter: true,
-          orderby: 0,
-          filter: false,
-          type: "option",
-          options: [
-            { value: 1, text: "CNPJ" },
-            { value: 2, text: "CPF" },
-          ],
-        },
-        {
-          nome: "Documento",
+          nome: "Fornecedor",
           width: 25,
-          field: "documento",
+          field: "fornecedorNome",
           iconFilter: true,
           orderby: 0,
           filter: false,
           type: "text",
+        },
+        {
+          nome: "Preço",
+          width: 15,
+          field: "preco",
+          iconFilter: true,
+          orderby: 0,
+          filter: false,
+          type: "money",
         },
         {
           nome: "Ativo",
@@ -82,4 +89,4 @@ export default {
 </script>
 
 <style>
-</style>     
+</style>

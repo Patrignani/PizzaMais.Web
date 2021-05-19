@@ -9,7 +9,9 @@
           v-model="inputVal"
           v-bind="money"
           class="form-control"
-          :class="[validate.state === false ?  'is-invalid': '']"
+          :class="[
+            validate.state === false && validate.using ? 'is-invalid' : '',
+          ]"
           :disabled="disabled"
         ></money>
         <div
@@ -54,7 +56,7 @@ export default {
       type: Number,
       default: 0,
     },
-     disabled: {
+    disabled: {
       default: false,
     },
     money: {
@@ -70,11 +72,11 @@ export default {
       },
     },
   },
-  data(){
-      return{
-          id: uuid.v1(),
-      }
-  }
+  data() {
+    return {
+      id: uuid.v1(),
+    };
+  },
 };
 </script>
 

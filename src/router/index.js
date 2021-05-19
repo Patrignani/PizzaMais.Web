@@ -10,6 +10,8 @@ import BordaCadastro from '../views/borda/Cadastro.vue'
 import BordaLista from '../views/borda/Lista.vue'
 import FornecedorCadastro from '../views/fornecedor/Cadastro.vue'
 import FornecedorLista from '../views/fornecedor/Lista.vue'
+import PrdoutoRevendaCadastro from '../views/produto-revenda/Cadastro.vue'
+import PrdoutoRevendaLista from '../views/produto-revenda/Lista.vue'
 
 Vue.use(VueRouter)
 
@@ -64,6 +66,16 @@ const routes = [
     name: 'Fornecedor Cadastro',
     component:FornecedorCadastro
   }, 
+  {
+    path: '/produto-revenda/:id/:state?',
+    name: 'Produto Revenda Cadastro',
+    component:PrdoutoRevendaCadastro
+  }, 
+  {
+    path: '/produto-revenda',
+    name: 'Produto Revenda Lista',
+    component:PrdoutoRevendaLista
+  },
 ]
 
 const router = new VueRouter({
