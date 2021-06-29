@@ -12,5 +12,6 @@ export const APP = {
 
 export const PAGE = {
     STATE: 'page/STATE',
-    NAMEPATH: 'page/NAMEPATH'
+    NAMEPATH: 'page/NAMEPATH',
+    PAGELOAD: 'page/LOAD'
 }

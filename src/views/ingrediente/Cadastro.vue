@@ -79,7 +79,7 @@ export default {
   data() {
     return {
       name: "ingrediente",
-      pageService: new PageService(this, "ingredienteService"),
+      pageService: new PageService(this, "ingrediente-service"),
       model: {
         id: 0,
         nome: "",

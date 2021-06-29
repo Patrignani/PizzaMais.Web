@@ -25,3 +25,12 @@ export const obterTodos = (filtros) => {
 export const deletar = (id) => {
     return axios.delete(`${process.env.VUE_APP_URL_PIZZA}/api/Ingrediente/${id}`)
 }
+
+export const litarSimplificado = (filtros) => {
+    return axios.get(`${process.env.VUE_APP_URL_PIZZA}/api/Ingrediente/litarSimplificado`, {
+        params: filtros,
+        paramsSerializer: params => {
+            return qs.stringify(params)
+        }
+    })
+}

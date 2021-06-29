@@ -56,7 +56,8 @@ html {
 #app {
   -webkit-font-smoothing: antialiased;
   -mox-osx-font-smoothing: grayscale;
-  height: 100vh;
+  height: 100%;
+   min-height: 100vh;
   display: grid;
   grid-template-rows: 60px 1fr 40px;
   grid-template-columns: 88px 1fr;

@@ -13,7 +13,7 @@ export default {
             email: "anderson.patrignani@gmail.com",
             img: img
         },
-        img: undefined
+        img: undefined,
     },
     mutations: {
         [APP.TOGGLEMENU]: (state, isVisible) => componentService.isVisibleAction(state, 'isMenuVisible', isVisible),
@@ -28,6 +28,6 @@ export default {
         [APP.TOGGLEMENU]: state => state.isMenuVisible,
         [APP.USER]: state => state.user,
         [APP.TOGGLESUBMENU]: state => state.isSubMenu,
-        [APP.MENU]:state => state.menuList
+        [APP.MENU]:state => state.menuList,
     },
 }

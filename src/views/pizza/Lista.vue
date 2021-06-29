@@ -1,18 +1,18 @@
 <template>
-  <div class="ingrediente-component">
+  <div class="pizza-component">
     <page-title
-      icon="weight"
-      :iconType="2"
-      main="Ingredientes"
+      icon="pizza-slice"
+      :icon-type="2"
+      main="Pizza"
       sub="Lista"
       :buttonAdd="true"
-      rota="ingrediente"
+      rota="pizza"
     />
     <div class="body">
       <Grid
         :colunas="colunas"
-        service="ingrediente-service"
-        rota="ingrediente"
+        service="pizza-service"
+        rota="pizza"
       />
     </div>
   </div>
@@ -31,7 +31,7 @@ export default {
       colunas: [
         {
           nome: "Id",
-          width: 20,
+          width: 5,
           field: "id",
           iconFilter: true,
           orderby: 0,
@@ -39,8 +39,17 @@ export default {
           type: "number",
         },
         {
+          nome: "Codigo",
+          width: 10,
+          field: "codigo",
+          iconFilter: true,
+          orderby: 0,
+          filter: false,
+          type: "text",
+        },
+        {
           nome: "Nome",
-          width: 50,
+          width: 25,
           field: "nome",
           iconFilter: true,
           orderby: 0,
@@ -48,8 +57,26 @@ export default {
           type: "text",
         },
         {
+          nome: "Fornecedor",
+          width: 25,
+          field: "fornecedorNome",
+          iconFilter: true,
+          orderby: 0,
+          filter: false,
+          type: "text",
+        },
+        {
+          nome: "Preço",
+          width: 15,
+          field: "preco",
+          iconFilter: true,
+          orderby: 0,
+          filter: false,
+          type: "money",
+        },
+        {
           nome: "Ativo",
-          width: 20,
+          width: 10,
           field: "ativo",
           type: "bool",
           orderby: 0,

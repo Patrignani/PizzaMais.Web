@@ -8,11 +8,8 @@
           :disabled="disabled"
           id="autocomplete-input"
           type="text"
-          class="form-control"
           autocomplete="off"
-          :class="[
-            validate.state === false && validate.using ? 'is-invalid' : '',
-          ]"
+          :class="classDefinition"
         />
       </div>
       <div
@@ -28,6 +25,15 @@
 <script>
 export default {
   computed: {
+    classDefinition() {
+      let value = this.useFormControl ? "form-control" : "";
+      (value +=
+        this.validate.state === false && this.validate.using
+          ? " is-invalid"
+          : ""),
+        (value += this.newClass ? ` ${this.newClass}` : "");
+      return value;
+    },
     inputVal: {
       get() {
         return this.value;
@@ -46,6 +52,14 @@ export default {
     },
   },
   props: {
+    newClass: {
+      type: String,
+      default: null,
+    },
+    useFormControl: {
+      type: Boolean,
+      default: true,
+    },
     validate: {
       type: Object,
       default() {
@@ -151,7 +165,7 @@ export default {
                 "'>";
               b.addEventListener("click", function () {
                 let inputElement = this.getElementsByTagName("input")[0];
-                self.textVal  = inputElement.value;
+                self.textVal = inputElement.value;
                 inp.id = inputElement.id;
                 self.inputVal = inputElement.id;
                 closeAllLists();

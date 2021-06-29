@@ -22,7 +22,7 @@
             <b-col sm="2">
               <Input
                 labelGroupName="Código"
-                inputId="produto-revenda--codigo"
+                inputId="produto-revenda-codigo"
                 :value="model.codigo"
                 :disabled="!state"
                 v-on:input="model.codigo = $event"

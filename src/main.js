@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue-icons.css'
 import './assets/style/geral.css'
 import Unicon from 'vue-unicons/dist/vue-unicons-vue2.umd'
-import { uniTruckLoading, uniChatBubbleUser, uniMinusCircle, uniRuler, uniEdit, uniPlusSquare,uniTrashAlt, uniWeight, uniUtensils, uniArrowCircleDown, uniArrowCircleUp, uniFilter, uniFilterSlash } from 'vue-unicons/dist/icons'
+import { uniPizzaSlice, uniTruckLoading, uniChatBubbleUser, uniMinusCircle, uniRuler, uniEdit, uniPlusSquare,uniTrashAlt, uniWeight, uniUtensils, uniArrowCircleDown, uniArrowCircleUp, uniFilter, uniFilterSlash } from 'vue-unicons/dist/icons'
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 import Loading from 'vue-loading-overlay';
@@ -23,7 +23,7 @@ Vue.use(BootstrapVueIcons)
 Vue.use(ModalPlugin)
 Vue.use(money, {precision: 2})
 Vue.use(VueMask);
-Unicon.add([uniTruckLoading, uniChatBubbleUser, uniMinusCircle, uniRuler, uniEdit, uniPlusSquare, uniTrashAlt, uniWeight, uniUtensils, uniArrowCircleDown, uniArrowCircleUp, uniFilter, uniFilterSlash ])
+Unicon.add([uniPlusSquare, uniPizzaSlice, uniTruckLoading, uniChatBubbleUser, uniMinusCircle, uniRuler, uniEdit, uniPlusSquare, uniTrashAlt, uniWeight, uniUtensils, uniArrowCircleDown, uniArrowCircleUp, uniFilter, uniFilterSlash ])
 Vue.use(Unicon)
 Vue.config.productionTip = false
 
