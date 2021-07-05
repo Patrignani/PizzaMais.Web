@@ -1,4 +1,5 @@
 import { PAGE } from '../utils/constants'
+import { uuid } from "vue-uuid";
 
 export default class Page {
     constructor(vueComponent, server) {
@@ -34,6 +35,8 @@ export default class Page {
             this.vueComponent.$store.commit(PAGE.STATE, 1)
             this.vueComponent.newModel()
         }
+        
+        this.vueComponent.$store.commit(PAGE.PAGELOAD, uuid.v1());
     }
 }
 
@@ -96,20 +99,25 @@ const insert = (self) => {
 const obterConfigButtons = (self) => {
     return {
         save: () => {
+            self.vueComponent.$store.commit(PAGE.BEFORESAVE, uuid.v1())
             insert(self);
         },
         newState: () => {
+            self.vueComponent.$store.commit(PAGE.BEFORENEW, uuid.v1())
             routerRedirect(self, 'new')
         },
         back: () => {
+            self.vueComponent.$store.commit(PAGE.BEFOREBACK, uuid.v1())
             self.vueComponent.$router.replace(
                 { path: `/${self.vueComponent.name}` },
             );
         },
         edit: () => {
+            self.vueComponent.$store.commit(PAGE.BEFOREEDIT, uuid.v1())
             routerRedirect(self, 'edit')
         },
         cancel: () => {
+            self.vueComponent.$store.commit(PAGE.BEFORECANCEL, uuid.v1())
             if (self.vueComponent.$store.getters[PAGE.STATE] == 1) {
                 self.vueComponent.$router.replace(
                     { path: `/${self.vueComponent.name}` },

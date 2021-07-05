@@ -49,17 +49,8 @@ export default {
         },
         {
           nome: "Nome",
-          width: 25,
+          width: 45,
           field: "nome",
-          iconFilter: true,
-          orderby: 0,
-          filter: false,
-          type: "text",
-        },
-        {
-          nome: "Fornecedor",
-          width: 25,
-          field: "fornecedorNome",
           iconFilter: true,
           orderby: 0,
           filter: false,

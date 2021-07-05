@@ -43,6 +43,9 @@ export default {
     AutoComplete,
   },
   computed: {
+    register() {
+      return this.$store.getters[PAGE.BEFORESAVE];
+    },
     load() {
       return this.$store.getters[PAGE.PAGELOAD];
     },
@@ -101,7 +104,7 @@ export default {
     return {
       selectedText: "",
       selectedId: null,
-      deleteItens: [],
+      historicItens: [],
     };
   },
   methods: {
@@ -109,11 +112,18 @@ export default {
       return `overflow-y: auto;height: ${this.height}px;`;
     },
     updateStatus(text, status) {
-      let objectValue = this.value.filter((x) => x.text == text);
+      let objectValue = this.inputVal.filter((x) => x.text == text);
       if (objectValue.length == 1) {
+        this.historicItens.push({
+          text: text,
+          oldValue: objectValue[0].status,
+          newValue: status,
+          date: new Date(),
+        });
+
         objectValue[0].status = status;
-        this.value = this.value.filter((x) => x.text != text);
-        this.value.push(objectValue[0]);
+        let index = this.inputVal.findIndex((x) => x.text == text);
+        this.inputVal[index] = objectValue[0];
       }
     },
     newLine(text) {
@@ -147,7 +157,7 @@ export default {
       let element = document.getElementById("group-input-grid");
       let div = document.createElement("div");
       div.id = id;
-      div.className = "div-grid";
+      div.className = "div-delete";
       div.append(newInputAction());
       div.append(deleteIconAction());
       element.append(div);
@@ -155,24 +165,33 @@ export default {
     add() {
       if (this.selectedText) {
         if (
-          this.value.findIndex(
+          this.inputVal.findIndex(
             (s) =>
               s?.status == 3 &&
               s?.text?.trim()?.toLowerCase() ==
                 this.selectedText?.trim()?.toLowerCase()
-          ) > 0
+          ) >= 0
         ) {
-          this.updateStatus(this.selectedText, 1);
+          let itensHistoric = this.historicItens.filter(
+            (x) => x.text == this.selectedText
+          );
+          if (itensHistoric.length == 0) {
+            this.updateStatus(this.selectedText, 1);
+          } else {
+            itensHistoric = itensHistoric.sort((a, b) => a.date - b.date);
+            this.updateStatus(this.selectedText, itensHistoric[0].oldValue);
+          }
+
           this.newLine(this.selectedText);
         } else if (
-          this.value.findIndex(
+          this.inputVal.findIndex(
             (s) =>
               (s?.status == 1 || s?.status == 0) &&
               s?.text?.trim()?.toLowerCase() ==
                 this.selectedText?.trim()?.toLowerCase()
           ) < 0
         ) {
-          this.value.push({
+          this.inputVal.push({
             id: this.selectedId,
             text: this.selectedText,
             status: 1,
@@ -185,7 +204,6 @@ export default {
       this.selectedId = null;
     },
     buttonsVisible(state) {
-      console.log("aqui =>>");
       let valueVisible = state ? "visible" : "hidden";
       document.getElementById("icon-add-simple-component").style.visibility =
         valueVisible;
@@ -196,12 +214,24 @@ export default {
     },
   },
   watch: {
+    register() {
+      this.selectedText = "";
+      this.selectedId = null;
+    },
     state(newValue) {
       this.buttonsVisible(newValue);
     },
     load() {
-      if (this.value) {
-        let createValues = this.value.filter((x) => x.status == 0);
+      this.selectedText = "";
+      this.selectedId = null;
+
+      let element = document.getElementsByClassName("div-delete");
+      while (element.length > 0) {
+        element[0].remove();
+      }
+
+      if (this.inputVal && this.inputVal.length > 0) {
+        let createValues = this.inputVal.filter((x) => x.status == 0);
         createValues.forEach((x) => this.newLine(x.text));
         this.buttonsVisible(this.state);
       }
@@ -241,6 +271,11 @@ export default {
 
 .icon-delete {
   cursor: pointer;
+}
+
+.div-delete {
+  display: flex;
+  align-items: stretch;
 }
 
 .div-grid {

@@ -110,7 +110,7 @@ export default {
         return valor.data.map((x) => {
           return {
             valor: x.id,
-            texto: x.nome
+            texto: x.nome,
           };
         });
       }
@@ -150,9 +150,8 @@ export default {
       validate: new Validator(),
     };
   },
- async created() {
+  async created() {
     await this.pageService.init();
-    this.$store.commit(PAGE.PAGELOAD, this.name)
   },
 };
 </script>

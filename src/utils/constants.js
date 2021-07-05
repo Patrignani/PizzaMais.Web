@@ -13,5 +13,10 @@ export const APP = {
 export const PAGE = {
     STATE: 'page/STATE',
     NAMEPATH: 'page/NAMEPATH',
-    PAGELOAD: 'page/LOAD'
+    PAGELOAD: 'page/LOAD',
+    BEFORESAVE: 'page/BEFORESAVE',
+    BEFOREEDIT: 'page/BEFOREEDIT',
+    BEFORECANCEL: 'page/BEFORECANCEL',
+    BEFOREBACK: 'page/BEFOREBACK',
+    BEFORENEW: 'page/BEFORENEW',
 }
